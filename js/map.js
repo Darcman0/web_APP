@@ -1,7 +1,7 @@
 // initialise map
 var map = L.map("map").setView([14.70, -17.30], 13);
 
-var marker= L.marker([14.70, -17.5]).addTo(map);
+
 // add the scale bar to the map
 L.control.scale().addTo(map)
 
@@ -10,12 +10,10 @@ var OpenStreetMap_France = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/
 	maxZoom: 20,
 	attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-// Add the basemap stadia Alidade satellite
-var Stadia_AlidadeSatellite = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.{ext}', {
-	minZoom: 0,
-	maxZoom: 20,
-	attribution: '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) | &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	ext: 'jpg'
+// add google basemap
+var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
 });
 
 // Ajout des geojson
@@ -27,7 +25,7 @@ var region = L.geoJSON(Sn_reg,{
      return "Région de : " + layer.feature.properties.REG
 }).addTo(map)
 var route_national = L.geoJSON(route_national,{
-    style: {color:"red"}
+    style: {color:"Black", weight: "3", dashArray: "10, 20", dashOffset: "20"}
 })
 
 
@@ -35,11 +33,10 @@ var route_national = L.geoJSON(route_national,{
 var baseLayers = {
    
     "OSM": OpenStreetMap_France,
-    "Satellite": Stadia_AlidadeSatellite
+    "Google Satellite": googleSat
 };
 // layers legend
 var overlays = {
-    "Marker": marker,
    "Route nationale" : route_national,
    "Région": region
 };
